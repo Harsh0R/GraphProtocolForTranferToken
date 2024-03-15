@@ -1,0 +1,27 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: TransferContract
+    network: goerli
+    source:
+      address: "0xD14BF9C3B377281948AFb01Bb62e9bd57b08FF13"
+      abi: TransferContract
+      startBlock: 9941452
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - ChangeNameEvent
+        - TransferEvent
+      abis:
+        - name: TransferContract
+          file: ./abis/TransferContract.json
+      eventHandlers:
+        - event: ChangeNameEvent(string)
+          handler: handleChangeNameEvent
+        - event: TransferEvent(address,address,uint256)
+          handler: handleTransferEvent
+      file: ./src/transfer-contract.ts
